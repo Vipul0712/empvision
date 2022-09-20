@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="my-2">
+        <input type="text" class="form-control" name="searchname"
+        placeholder="Enter employee Name" [(ngModel)]="searchQuery">
+    </div>
+    {{searchQuery}}
+
+    <div class="my-2">
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <button type="button" (click)="searchByDept()" class="btn btn-outline-primary">
+                All
+            </button>
+            <button type="button" (click)="searchByDept('Admin')" class="btn btn-outline-primary">
+                Admin
+            </button>
+            <button type="button" (click)="searchByDept('HR')" class="btn btn-outline-primary">
+                HR
+            </button>
+            <button type="button" (click)="searchByDept('Developer')" class="btn btn-outline-primary">
+                Developer
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="filteremplist.length>0; else elseblock">
+        <h1>{{"Employee"+ "List"}}</h1>
+       <!-- {{emplist|json}} -->
+    
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>Birth Date</th>
+                <th>Age</th>
+                <th>Incremented Salary</th>
+            </tr>
+            <tr *ngFor="let emp of filteremplist">
+                <td>
+                    {{emp.empId}}
+                </td>
+                <td>
+                    <img [src]="emp.empImage" 
+                    [alt]="emp.empName"
+                    width="150px">
+                </td>
+
+
+             <!-- <td>{{emp.empName|uppercase}}</td> -->
+             <!--   <td>{{emp.empName|lowercase}}</td>  -->
+                <td [title]="emp.empName"
+                    [ngStyle]="mystyle" 
+                    [ngClass]="myclasses">
+                    {{emp.empName|titlecase}}</td>
+             <!--   <td>{{emp.empSalary|currency:"INR":"RS."}}</td> -->
+             <td>{{emp.empName|slice:0:2}}@{{emp.empId}}</td>
+             <td>{{emp.empDept}}</td>
+             <td appDelText>{{emp.empSalary|currency:"INR":true}}</td>
+             <td>{{emp.empDOB|date:"longDate"}}</td> 
+             <td>{{emp.empDOB|age}}</td>  
+             <td>{{emp.empSalary|increment:3|currency:"INR":true}}</td> 
+             <td>
+                <button (click)="show(emp)"
+                class="btn btn-outline-primary">
+                <i class="bi bi-eye"></i>
+            </button>
+             </td>
+            </tr>
+        </table>
+    </div>
+    <!--
+    <p *ngIf="emplist.length==0">
+        No Employee Is Found...
+    </p>
+    -->
+    <ng-template #elseblock>
+        <p>No Employee Is found...</p>
+    </ng-template>
+</div>
